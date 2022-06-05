@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -11,16 +12,15 @@ public class MainManager : MonoBehaviour
     public Rigidbody Ball;
 
     public Text ScoreText;
+    public Text BestScoreText;
     public GameObject GameOverText;
     
     private bool m_Started = false;
-    private int m_Points;
+    private int m_Points = 0;
     
     private bool m_GameOver = false;
 
     public string currentName;
-    public string highScoreName;
-    public int highScoreAmount;
 
     // Start is called before the first frame update
     void Start()
@@ -39,6 +39,11 @@ public class MainManager : MonoBehaviour
                 brick.onDestroyed.AddListener(AddPoint);
             }
         }
+        // Set the current name using data persistence
+        currentName = SceneFlowManager.instance.currentName;
+        ScoreText.text = $"{currentName} Score : {m_Points}";
+        // Set the current high score
+        BestScoreText.text = $"Best Score: {SceneFlowManager.instance.bestName} : {SceneFlowManager.instance.bestScore}";
     }
 
     private void Update()
@@ -75,18 +80,13 @@ public class MainManager : MonoBehaviour
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
-        if (m_Points > highScoreAmount)
+        if (m_Points > SceneFlowManager.instance.bestScore)
         {
-            highScoreAmount = m_Points;
-            highScoreName = currentName;
+            SceneFlowManager.instance.bestScore = m_Points;
+            SceneFlowManager.instance.bestName = currentName;
+            BestScoreText.text = $"Best Score: {SceneFlowManager.instance.bestName} : {SceneFlowManager.instance.bestScore}";
+            SceneFlowManager.instance.SaveHighScore();
         }
-    }
-
-    [System.Serializable]
-    class SaveData
-    {
-        public string name;
-        public int score;
     }
 
     

@@ -658,7 +658,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentName: 
-  currentHighScore: 0
+  bestName: 
+  bestScore: 0
+  bestScoreField: {fileID: 466828415}
 --- !u!4 &527346561
 Transform:
   m_ObjectHideFlags: 0

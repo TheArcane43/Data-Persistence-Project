@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class MenuUIHandler : MonoBehaviour
 {
-    private InputField nameTextBox;
+    private TMP_InputField nameTextBox;
 
     // Start is called before the first frame update
     void Start()
     {
-        nameTextBox = GameObject.Find("InputPlayerName").GetComponent<InputField>();
+        nameTextBox = GameObject.Find("InputPlayerName").GetComponent<TMP_InputField>();
+        nameTextBox.text = SceneFlowManager.instance.currentName;
     }
 
     // Update is called once per frame
@@ -20,6 +22,7 @@ public class MenuUIHandler : MonoBehaviour
         
     }
 
+    // Move to next scene
     public void StartNew()
     {
         SceneFlowManager.instance.currentName = nameTextBox.text;
